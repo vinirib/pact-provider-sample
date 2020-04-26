@@ -5,6 +5,7 @@ import br.com.vinirib.provider.pact.account.dto.BalanceDTO;
 import br.com.vinirib.provider.pact.account.entity.Account;
 import br.com.vinirib.provider.pact.account.service.AccountService;
 import br.com.vinirib.provider.pact.account.stub.AccountStub;
+import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -19,8 +21,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -35,18 +36,16 @@ class AccountResourceEndpointTest {
     @Autowired
     private AccountStub accountStub;
 
+    @Autowired
+    private Gson gson;
+
     @Test
     void getAccountDetailsByClientId() throws Exception {
         final AccountDetailsDTO accountDetailsDTO = Account.fromEntityToDto(accountStub.getAccounts().get(1));
         when(accountService.getAccountDetailsByClientId(anyInt())).thenReturn(Optional.of(accountDetailsDTO));
         mockMvc.perform(get("/v1/accounts/1"))
                 .andDo(print())
-                .andExpect(jsonPath("$.accountId").exists())
-                .andExpect(jsonPath("$.balance").exists())
-                .andExpect(jsonPath("$.accountType").exists())
-                .andExpect(jsonPath("$.accountId").value(accountDetailsDTO.getAccountId()))
-                .andExpect(jsonPath("$.balance").value(accountDetailsDTO.getBalance()))
-                .andExpect(jsonPath("$.accountType").value(accountDetailsDTO.getAccountType().toString()))
+                .andExpect(content().json(gson.toJson(accountDetailsDTO)))
                 .andExpect(status().isOk());
     }
 
@@ -60,16 +59,11 @@ class AccountResourceEndpointTest {
     @Test
     void getAll() throws Exception {
         when(accountService.getAll()).thenReturn(Optional.of(accountStub.getAllStubsDTOFormat()));
-        final AccountDetailsDTO firstAccountDetailsDTO = accountStub.getAllStubsDTOFormat().get(0);
+        final List<AccountDetailsDTO> accountDetailsDTOS = accountStub.getAllStubsDTOFormat();
         mockMvc.perform(get("/v1/accounts"))
                 .andDo(print())
-                .andExpect(jsonPath("$", hasSize(accountStub.getAllStubsDTOFormat().size())))
-                .andExpect(jsonPath("$.[0].accountId").exists())
-                .andExpect(jsonPath("$.[0].balance").exists())
-                .andExpect(jsonPath("$.[0].accountType").exists())
-                .andExpect(jsonPath("$.[0].accountId").value(firstAccountDetailsDTO.getAccountId()))
-                .andExpect(jsonPath("$.[0].balance").value(firstAccountDetailsDTO.getBalance()))
-                .andExpect(jsonPath("$.[0].accountType").value(firstAccountDetailsDTO.getAccountType().toString()))
+                .andExpect(jsonPath("$", hasSize(accountDetailsDTOS.size())))
+                .andExpect(content().json(gson.toJson(accountDetailsDTOS)))
                 .andExpect(status().isOk());
     }
 
@@ -87,12 +81,7 @@ class AccountResourceEndpointTest {
         when(accountService.getBalanceByAccountId(anyInt())).thenReturn(Optional.of(balanceDTO));
         mockMvc.perform(get("/v1/accounts/balance/1"))
                 .andDo(print())
-                .andExpect(jsonPath("$.clientId").exists())
-                .andExpect(jsonPath("$.accountId").exists())
-                .andExpect(jsonPath("$.balance").exists())
-                .andExpect(jsonPath("$.clientId").value(balanceDTO.getClientId()))
-                .andExpect(jsonPath("$.accountId").value(balanceDTO.getAccountId()))
-                .andExpect(jsonPath("$.balance").value(balanceDTO.getBalance()))
+                .andExpect(content().json(gson.toJson(balanceDTO)))
                 .andExpect(status().isOk());
     }
 
