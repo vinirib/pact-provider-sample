@@ -19,17 +19,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import javax.money.CurrencyUnit;
 import javax.money.Monetary;
-import java.math.BigDecimal;
-import java.util.Locale;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
 @Provider("AccountBalanceProvider")
-@PactBroker(host = "pact_broker", port = "80")
+@PactBroker(host = "localhost", port = "80")
 @VerificationReports
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -41,17 +38,14 @@ public class AccountProviderPactTest {
     @MockBean
     private AccountService accountService;
 
-    private double MAX_BALANCE = 29999.00;
-    private double MIN_BALANCE = -100.00;
+    @BeforeAll
+    static void enablePublishingPact() {
+        System.setProperty("pact.verifier.publishResults", "true");
+    }
 
     @BeforeEach
     void setUp(PactVerificationContext context) {
         context.setTarget(new HttpTestTarget("localhost", localServerPort, "/"));
-    }
-
-    @BeforeAll
-    static void enablePublishingPact() {
-        System.setProperty("pact.verifier.publishResults", "true");
     }
 
     @TestTemplate
@@ -78,7 +72,4 @@ public class AccountProviderPactTest {
         given(accountService.getBalanceByAccountId(eq(1000))).willReturn(Optional.empty());
     }
 
-    private double getRandomAmount() {
-        return Math.random() * (MAX_BALANCE - MIN_BALANCE) + MIN_BALANCE;
-    }
 }
