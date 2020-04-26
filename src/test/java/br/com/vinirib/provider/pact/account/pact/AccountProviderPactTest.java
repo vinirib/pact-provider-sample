@@ -26,7 +26,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
 @Provider("AccountBalanceProvider")
-@PactBroker(host = "pact_broker", port = "80")
+@PactBroker(host = "pact_broker", port = "80", tags = {"master"})
 @VerificationReports
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
