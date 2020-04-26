@@ -66,7 +66,7 @@ public class AccountProviderPactTest {
                 .builder()
                 .clientId(1)
                 .accountId(1)
-                .balance(Money.of(getRandomAmount(),
+                .balance(Money.of(100.00,
                         Monetary.getCurrency("BRL")))
                 .build();
         given(accountService.getBalanceByAccountId(eq(1))).willReturn(Optional.of(balanceDTO));
