@@ -41,6 +41,7 @@ public class AccountProviderPactTest {
     @BeforeAll
     static void enablePublishingPact() {
         System.setProperty("pact.verifier.publishResults", "true");
+        System.setProperty("pact.tag", "master");
     }
 
     @BeforeEach
