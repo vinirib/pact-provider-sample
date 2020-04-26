@@ -1,5 +1,6 @@
 package br.com.vinirib.provider.pact.account.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -16,6 +17,9 @@ import java.util.Collections;
 @Configuration
 @EnableSwagger2
 public class ApiConfig {
+
+    @Value("${info.build.version}")
+    private String buildVersion;
 
     /**
      * To add more features visit
@@ -35,7 +39,7 @@ public class ApiConfig {
         return new ApiInfo(
                 "Account API",
                 "Account detail from client of an bank API Made by Vinicius Ribeiro.",
-                "API TOS",
+                buildVersion,
                 "Terms of service",
                 new Contact("Vinícius Ribeiro", "https://github.com/vinirib",
                         "viniciusribeirosp@gmail.com"),
