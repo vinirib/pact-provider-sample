@@ -1,9 +1,6 @@
 #!groovy
 pipeline {
     agent any
-    parameters {
-        string(name: 'pactConsumerTags', defaultValue: 'CONTRACT-TEST', description: 'Tags to verify')
-    }
     stages {
         stage ('Run Contract Tests'){
             steps {
@@ -11,7 +8,7 @@ pipeline {
                 sh "./mvnw clean verify " +
                         "-Dpact.provider.version=${GIT_COMMIT} " +
                         "-Dpact.verifier.publishResults=true " +
-                        "-Dpactbroker.tags=${params.pactConsumerTags}"
+                        "-Dpactbroker.tags=CONTRACT-TEST"
             }
         }
     }
