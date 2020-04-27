@@ -19,10 +19,10 @@ pipeline {
         success {
             script {
                 echo "Contract Generated Successful, now trigger Provider check!"
-                build job: '3-PACT-FLOW-PROVIDER-CAN-I-DEPLOY', propagate: true
+                build job: '3-PACT-FLOW-CONSUMER-CAN-I-DEPLOY', propagate: true
 
                 echo "Contract Generated Successful, now trigger Consumer check!"
-                build job: '4-PACT-FLOW-CONSUMER-CAN-I-DEPLOY', propagate: true
+                build job: '4-PACT-FLOW-PROVIDER-CAN-I-DEPLOY', propagate: true
             }
         }
     }
