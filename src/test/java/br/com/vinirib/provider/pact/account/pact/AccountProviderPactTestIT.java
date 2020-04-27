@@ -10,7 +10,6 @@ import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvide
 import br.com.vinirib.provider.pact.account.dto.BalanceDTO;
 import br.com.vinirib.provider.pact.account.service.AccountService;
 import org.javamoney.moneta.Money;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,25 +24,18 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
-@Provider("AccountBalanceProvider")
-@PactBroker(host = "pact_broker", port = "80", tags = {"master"})
+@Provider("AccountProvider")
+@PactBroker(host = "pact_broker", port = "80")
 @VerificationReports
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class AccountProviderPactTest {
+public class AccountProviderPactTestIT {
 
     @LocalServerPort
     private int localServerPort;
 
     @MockBean
     private AccountService accountService;
-
-    @BeforeAll
-    static void enablePublishingPact() {
-        System.setProperty("pact.verifier.publishResults", "true");
-        System.setProperty("pact.provider.tag", "master");
-        System.setProperty("pact.provider.version", "0.0.1");
-    }
 
     @BeforeEach
     void setUp(PactVerificationContext context) {

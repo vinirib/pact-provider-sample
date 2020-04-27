@@ -4,7 +4,7 @@ pipeline {
   agent any
 
   parameters {
-    string(name: 'pactConsumerTags', defaultValue: 'master', description: 'Tags to verify')
+    string(name: 'pactConsumerTags', defaultValue: 'CONTRACT-TEST', description: 'Tags to verify')
   }
 
   stages {
@@ -32,7 +32,7 @@ pipeline {
           sh "chmod +x mvnw"
           sh "./mvnw clean test " +
                   "-Pcontract-tests " +
-                  "-Dpact.provider.version=${PROD_VERSION} " +
+                  "-Dpact.provider.version=${GIT_COMMIT} " +
                   "-Dpact.verifier.publishResults=true " +
                   "-Dpactbroker.tags=prod,${params.pactConsumerTags}"
         }
