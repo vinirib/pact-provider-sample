@@ -8,7 +8,7 @@ pipeline {
                 sh "./mvnw clean verify " +
                         "-Dpact.provider.version=${GIT_COMMIT} " +
                         "-Dpact.verifier.publishResults=true " +
-                        "-Dpactbroker.tags=CONTRACT-TEST"
+                        "-Dpact.provider.tag=CONTRACT-TEST"
             }
         }
     }
