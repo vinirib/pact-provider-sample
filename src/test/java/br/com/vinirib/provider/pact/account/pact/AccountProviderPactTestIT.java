@@ -9,7 +9,6 @@ import au.com.dius.pact.provider.junit5.PactVerificationContext;
 import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider;
 import br.com.vinirib.provider.pact.account.dto.BalanceDTO;
 import br.com.vinirib.provider.pact.account.service.AccountService;
-import org.javamoney.moneta.Money;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,9 +17,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import javax.money.Monetary;
+import java.math.BigDecimal;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
@@ -48,16 +48,15 @@ public class AccountProviderPactTestIT {
         context.verifyInteraction();
     }
 
-    @State("get balance of accountId 1")
+    @State("get balance of an account")
     public void getBalanceDTO() {
         final BalanceDTO balanceDTO = BalanceDTO
                 .builder()
                 .clientId(1)
                 .accountId(1)
-                .balance(Money.of(100.00,
-                        Monetary.getCurrency("BRL")))
+                .balance(new BigDecimal(100.00))
                 .build();
-        given(accountService.getBalanceByAccountId(eq(1))).willReturn(Optional.of(balanceDTO));
+        given(accountService.getBalanceByAccountId(anyInt())).willReturn(Optional.of(balanceDTO));
 
     }
 

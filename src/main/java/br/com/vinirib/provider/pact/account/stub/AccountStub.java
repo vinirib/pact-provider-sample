@@ -1,15 +1,12 @@
 package br.com.vinirib.provider.pact.account.stub;
 
+import br.com.vinirib.provider.pact.account.dto.AccountDetailsDTO;
 import br.com.vinirib.provider.pact.account.entity.Account;
 import br.com.vinirib.provider.pact.account.enums.AccountType;
-import br.com.vinirib.provider.pact.account.dto.AccountDetailsDTO;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.javamoney.moneta.Money;
 import org.springframework.stereotype.Service;
 
-import javax.money.CurrencyUnit;
-import javax.money.Monetary;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -18,12 +15,12 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AccountStub {
 
-    @Getter
-    private Map<Integer, Account> accounts;
     private static final Integer NUMBER_OF_STUBS = 10;
     private static final List<AccountType> ACCOUNT_TYPES = Arrays.asList(AccountType.class.getEnumConstants());
-    private double MAX_BALANCE = 29999.00;
-    private double MIN_BALANCE = -100.00;
+    @Getter
+    private final Map<Integer, Account> accounts;
+    private final double MAX_BALANCE = 29999.00;
+    private final double MIN_BALANCE = -100.00;
 
 
     public AccountStub() {
@@ -38,8 +35,7 @@ public class AccountStub {
             final Account account = Account.builder()
                     .id(i)
                     .clientId(i)
-                    .balance(Money.of(getRandomAmount(),
-                            Monetary.getCurrency("BRL")))
+                    .balance(new BigDecimal(getRandomAmount()))
                     .accountType(ACCOUNT_TYPES.get(0))
                     .build();
             accounts.put(i, account);
@@ -51,7 +47,7 @@ public class AccountStub {
         return Math.random() * (MAX_BALANCE - MIN_BALANCE) + MIN_BALANCE;
     }
 
-    public List<AccountDetailsDTO> getAllStubsDTOFormat(){
+    public List<AccountDetailsDTO> getAllStubsDTOFormat() {
         List<AccountDetailsDTO> clientDetailsDTOS = new ArrayList<>();
         final List<Account> accounts = this.accounts.values().stream()
                 .collect(Collectors.toList());

@@ -5,7 +5,7 @@ import br.com.vinirib.provider.pact.account.enums.AccountType;
 import lombok.Builder;
 import lombok.Data;
 
-import javax.money.MonetaryAmount;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 @Data
@@ -13,7 +13,7 @@ import java.util.Objects;
 public class AccountDetailsDTO {
 
     private Integer accountId;
-    private MonetaryAmount balance;
+    private BigDecimal balance;
     private AccountType accountType;
 
 

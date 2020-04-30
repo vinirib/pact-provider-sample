@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.money.MonetaryAmount;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 @AllArgsConstructor
@@ -18,7 +18,7 @@ public class Account {
 
     private Integer id;
     private Integer clientId;
-    private MonetaryAmount balance;
+    private BigDecimal balance;
     private AccountType accountType;
 
     public static AccountDetailsDTO fromEntityToDto(Account account) {
