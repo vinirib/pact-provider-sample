@@ -17,16 +17,14 @@ public class BalanceDTO implements Serializable {
 
     private Integer clientId;
     private Integer accountId;
-    private BigDecimal balance;
-    private LocalDateTime extractDate;
+    private BigDecimal value;
 
     public static BalanceDTO fromAccountToDTO(Account accountFound) {
         Objects.requireNonNull(accountFound, "Account must not null to build BalanceDTO");
         return BalanceDTO.builder()
                 .accountId(accountFound.getId())
                 .clientId(accountFound.getClientId())
-                .balance(accountFound.getBalance())
-                .extractDate(LocalDateTime.now())
+                .value(accountFound.getBalance())
                 .build();
 
     }

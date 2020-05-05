@@ -26,7 +26,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
 @Provider("AccountProvider")
-@PactBroker(host = "pact_broker", port = "80")
+@PactBroker(host = "localhost", port = "80")
 @VerificationReports
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -54,9 +54,8 @@ public class AccountProviderPactTestIT {
         final BalanceDTO balanceDTO = BalanceDTO
                 .builder()
                 .clientId(1)
-                .accountId(1)
-                .balance(new BigDecimal(100.00))
-                .extractDate(LocalDateTime.now())
+                .accountId(100)
+                .value(new BigDecimal(100.00))
                 .build();
         given(accountService.getBalanceByAccountId(anyInt())).willReturn(Optional.of(balanceDTO));
 
