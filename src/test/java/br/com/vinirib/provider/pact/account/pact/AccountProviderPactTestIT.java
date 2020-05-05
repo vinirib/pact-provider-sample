@@ -18,6 +18,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -55,6 +56,7 @@ public class AccountProviderPactTestIT {
                 .clientId(1)
                 .accountId(1)
                 .balance(new BigDecimal(100.00))
+                .extractDate(LocalDateTime.now())
                 .build();
         given(accountService.getBalanceByAccountId(anyInt())).willReturn(Optional.of(balanceDTO));
 

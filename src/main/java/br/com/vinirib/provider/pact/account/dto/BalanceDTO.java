@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Data
@@ -17,6 +18,7 @@ public class BalanceDTO implements Serializable {
     private Integer clientId;
     private Integer accountId;
     private BigDecimal balance;
+    private LocalDateTime extractDate;
 
     public static BalanceDTO fromAccountToDTO(Account accountFound) {
         Objects.requireNonNull(accountFound, "Account must not null to build BalanceDTO");
@@ -24,6 +26,7 @@ public class BalanceDTO implements Serializable {
                 .accountId(accountFound.getId())
                 .clientId(accountFound.getClientId())
                 .balance(accountFound.getBalance())
+                .extractDate(LocalDateTime.now())
                 .build();
 
     }
