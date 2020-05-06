@@ -44,7 +44,7 @@ class AccountResourceEndpointTest {
     void getAccountDetailsByClientId() throws Exception {
         final AccountDetailsDTO accountDetailsDTO = Account.fromEntityToDto(accountStub.getAccounts().get(1));
         when(accountService.getAccountDetailsByClientId(anyInt())).thenReturn(Optional.of(accountDetailsDTO));
-        mockMvc.perform(post("/v1/accounts/1"))
+        mockMvc.perform(get("/v1/accounts/1"))
                 .andDo(print())
                 .andExpect(content().json(gson.toJson(accountDetailsDTO)))
                 .andExpect(status().isOk());
@@ -52,7 +52,7 @@ class AccountResourceEndpointTest {
 
     @Test
     void getAccountDetailsByNonExistentClientId() throws Exception {
-        mockMvc.perform(post("/v1/accounts/1100"))
+        mockMvc.perform(get("/v1/accounts/1100"))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
@@ -61,7 +61,7 @@ class AccountResourceEndpointTest {
     void getAll() throws Exception {
         when(accountService.getAll()).thenReturn(Optional.of(accountStub.getAllStubsDTOFormat()));
         final List<AccountDetailsDTO> accountDetailsDTOS = accountStub.getAllStubsDTOFormat();
-        mockMvc.perform(post("/v1/accounts"))
+        mockMvc.perform(get("/v1/accounts"))
                 .andDo(print())
                 .andExpect(jsonPath("$", hasSize(accountDetailsDTOS.size())))
                 .andExpect(content().json(gson.toJson(accountDetailsDTOS)))
@@ -71,7 +71,7 @@ class AccountResourceEndpointTest {
     @Test
     void getAllNoContent() throws Exception {
         when(accountService.getAll()).thenReturn(Optional.empty());
-        mockMvc.perform(post("/v1/accounts"))
+        mockMvc.perform(get("/v1/accounts"))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
