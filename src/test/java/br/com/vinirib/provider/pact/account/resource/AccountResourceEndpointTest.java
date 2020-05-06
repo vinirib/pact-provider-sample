@@ -20,6 +20,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -43,7 +44,7 @@ class AccountResourceEndpointTest {
     void getAccountDetailsByClientId() throws Exception {
         final AccountDetailsDTO accountDetailsDTO = Account.fromEntityToDto(accountStub.getAccounts().get(1));
         when(accountService.getAccountDetailsByClientId(anyInt())).thenReturn(Optional.of(accountDetailsDTO));
-        mockMvc.perform(get("/v1/accounts/1"))
+        mockMvc.perform(post("/v1/accounts/1"))
                 .andDo(print())
                 .andExpect(content().json(gson.toJson(accountDetailsDTO)))
                 .andExpect(status().isOk());
@@ -51,7 +52,7 @@ class AccountResourceEndpointTest {
 
     @Test
     void getAccountDetailsByNonExistentClientId() throws Exception {
-        mockMvc.perform(get("/v1/accounts/1100"))
+        mockMvc.perform(post("/v1/accounts/1100"))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
@@ -60,7 +61,7 @@ class AccountResourceEndpointTest {
     void getAll() throws Exception {
         when(accountService.getAll()).thenReturn(Optional.of(accountStub.getAllStubsDTOFormat()));
         final List<AccountDetailsDTO> accountDetailsDTOS = accountStub.getAllStubsDTOFormat();
-        mockMvc.perform(get("/v1/accounts"))
+        mockMvc.perform(post("/v1/accounts"))
                 .andDo(print())
                 .andExpect(jsonPath("$", hasSize(accountDetailsDTOS.size())))
                 .andExpect(content().json(gson.toJson(accountDetailsDTOS)))
@@ -70,7 +71,7 @@ class AccountResourceEndpointTest {
     @Test
     void getAllNoContent() throws Exception {
         when(accountService.getAll()).thenReturn(Optional.empty());
-        mockMvc.perform(get("/v1/accounts"))
+        mockMvc.perform(post("/v1/accounts"))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
@@ -79,7 +80,7 @@ class AccountResourceEndpointTest {
     void getBalanceOfClientId() throws Exception {
         final BalanceDTO balanceDTO = BalanceDTO.fromAccountToDTO(accountStub.getAccounts().get(1));
         when(accountService.getBalanceByAccountId(anyInt())).thenReturn(Optional.of(balanceDTO));
-        mockMvc.perform(get("/v1/accounts/balance/1"))
+        mockMvc.perform(post("/v1/accounts/balance/1"))
                 .andDo(print())
                 .andExpect(content().json(gson.toJson(balanceDTO)))
                 .andExpect(status().isOk());
@@ -88,7 +89,7 @@ class AccountResourceEndpointTest {
     @Test
     void getBalanceOfClientWithNoAccount() throws Exception {
         when(accountService.getBalanceByAccountId(anyInt())).thenReturn(Optional.empty());
-        mockMvc.perform(get("/v1/accounts/balance/1000"))
+        mockMvc.perform(post("/v1/accounts/balance/1000"))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
