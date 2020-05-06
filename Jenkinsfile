@@ -22,5 +22,12 @@ pipeline {
                 build job: '3-PACT-FLOW-CONSUMER-CAN-I-DEPLOY', propagate: true
             }
         }
+        failure {
+            script {
+                echo -e "\n\nThere are some error on ${env.JOB_NAME} on branch ${env.GIT_BRANCH}" +
+                        "You can add some notice if you want, see this page to get an example\n" +
+                        "https://www.jenkins.io/doc/pipeline/tour/post/"
+            }
+        }
     }
 }
