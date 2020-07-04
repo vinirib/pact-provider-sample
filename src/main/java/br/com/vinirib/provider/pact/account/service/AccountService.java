@@ -1,8 +1,7 @@
 package br.com.vinirib.provider.pact.account.service;
 
-import br.com.vinirib.provider.pact.account.dto.BalanceDTO;
 import br.com.vinirib.provider.pact.account.dto.AccountDetailsDTO;
-
+import br.com.vinirib.provider.pact.account.dto.BalanceDTO;
 import java.util.List;
 import java.util.Optional;
 

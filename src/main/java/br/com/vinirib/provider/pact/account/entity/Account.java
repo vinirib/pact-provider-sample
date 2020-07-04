@@ -2,13 +2,12 @@ package br.com.vinirib.provider.pact.account.entity;
 
 import br.com.vinirib.provider.pact.account.dto.AccountDetailsDTO;
 import br.com.vinirib.provider.pact.account.enums.AccountType;
+import java.math.BigDecimal;
+import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.math.BigDecimal;
-import java.util.Objects;
 
 @AllArgsConstructor
 @Getter

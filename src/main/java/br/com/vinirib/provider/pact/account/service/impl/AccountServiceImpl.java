@@ -1,15 +1,14 @@
 package br.com.vinirib.provider.pact.account.service.impl;
 
+import br.com.vinirib.provider.pact.account.dto.AccountDetailsDTO;
 import br.com.vinirib.provider.pact.account.dto.BalanceDTO;
 import br.com.vinirib.provider.pact.account.repository.AccountRepository;
 import br.com.vinirib.provider.pact.account.service.AccountService;
-import br.com.vinirib.provider.pact.account.dto.AccountDetailsDTO;
+import java.util.List;
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

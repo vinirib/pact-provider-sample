@@ -5,7 +5,7 @@ pipeline {
         string(name: 'pactConsumerTags', defaultValue: 'CONTRACT-TEST', description: 'Tags to verify')
     }
     stages {
-        stage ('Run Contract Tests'){
+        stage('Run Contract Tests') {
             steps {
                 sh "chmod +x mvnw"
                 sh "./mvnw clean verify " +
