@@ -16,7 +16,7 @@ pipeline {
                 branch 'master'
             }
             steps {
-                echo 'Deploying to prod now....'
+                echo 'Deploying to prod now...'
             }
         }
     }
